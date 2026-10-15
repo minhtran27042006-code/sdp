@@ -1,9 +1,10 @@
 name: CI/CD
 
 on:
-  pull_request:              # check every pull request
+  pull_request:
+    branches: [ main ]
   push:
-    branches: [ main ]       # and every merge to main
+    branches: [ main ]
 
 jobs:
   check:
@@ -14,13 +15,25 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          cache: pip
+          cache: "pip"
 
       - name: Install
-        run: pip install -r requirements-dev.txt
+        run: |
+          pip install -r requirements-dev.txt
+          pip install ruff
 
       - name: Lint
         run: ruff check .
 
       - name: Test
         run: pytest -q
+
+  deploy:
+    needs: check
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger the Render deploy
+        env:
+          HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: curl -fsS -X POST "$HOOK"
