@@ -50,3 +50,6 @@ def get_item(item_id: int):
 @app.get("/version")
 def get_version():
     return {"version": "2.0.0", "deployed_by": "Tran Quang Minh"}
+
+import os
+MISSING = os.environ["DEFINITELY_NOT_SET"]
