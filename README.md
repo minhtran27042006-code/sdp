@@ -68,3 +68,5 @@ pytest
 |---|---|---|
 | `APP_NAME` | optional | Name shown by `/` |
 | `DATABASE_URL` | Week 4 | PostgreSQL connection string |
+
+Deployed v2.0.0 on Render
