@@ -45,3 +45,8 @@ def get_item(item_id: int):
         if item["id"] == item_id:
             return item
     raise HTTPException(status_code=404, detail="Item not found")
+
+
+@app.get("/version")
+def get_version():
+    return {"version": "2.0.0", "deployed_by": "Tran Quang Minh"}
